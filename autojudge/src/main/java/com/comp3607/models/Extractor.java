@@ -1,5 +1,10 @@
 package com.comp3607.models;
 
+import java.io.IOException;
+
 public interface Extractor {
-    public static void extract(String input, String output){}
+
+    static void extract(String input, String output) throws IOException {
+    }
+
 }

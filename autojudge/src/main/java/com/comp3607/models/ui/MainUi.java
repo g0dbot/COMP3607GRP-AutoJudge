@@ -1,4 +1,4 @@
-package com.comp3607.ui;
+package com.comp3607.models.ui;
 
 //java display libs
 import javax.swing.*;
@@ -6,15 +6,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 public class MainUi extends JFrame{
     private JTextField filePathField;
