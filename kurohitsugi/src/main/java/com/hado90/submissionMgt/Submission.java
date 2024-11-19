@@ -10,6 +10,7 @@ public class Submission {
     private String submissionPath;
     private String submissionStatus;
     private String submissionComment;
+    private String score;
 
     private HashMap<String, HashMap<String, String>> testResults;
 
@@ -27,6 +28,9 @@ public class Submission {
     public String getSubmissionFirstName() { return submissionFirstName; }
     public String getSubmissionLastName() { return submissionLastName; }
     public HashMap<String, HashMap<String, String>> getTestResults() { return testResults; }
+    public String getScore() {return score;}
+
+
 
     // mutators
     public void setSubmissionId(String submissionId) { this.submissionId = submissionId; }
@@ -36,6 +40,7 @@ public class Submission {
     public void setSubmissionStatus(String submissionStatus) { this.submissionStatus = submissionStatus; }
     public void setSubmissionComment(String submissionComment) { this.submissionComment = submissionComment; }
     public void setSubmissionResults(HashMap<String, HashMap<String, String>> testResults) { this.testResults = testResults; }
+    public void setScore(String score) {this.score = score;}
 
     public boolean validateSubmissionNamingConvention(String firstName, String lastName, String submissionId) {
         if (firstName == null || firstName.isEmpty()) { return false; }
@@ -46,6 +51,24 @@ public class Submission {
     }
 
     public String extractFileNameWithoutExtension(String filePath) { return (new File(filePath).getName()); }
+
+    public void calculateScore() {
+        
+        int[] passedTests = new int[1];
+        int[] totalTestResults = new int[1];
+        testResults.forEach((testClassName, testResults) -> {
+        testResults.forEach((testName, result) -> {
+        if (result.substring(0, 1).equals("1")) {
+            passedTests[0] = passedTests[0] + 1;
+        }});
+        });
+        testResults.forEach((testClassName, testResults) -> {
+            totalTestResults[0] += testResults.size();
+        });
+        String score = String.format("%.2f", ((double) passedTests[0] /
+        totalTestResults[0]) * 100);
+        setScore(score);
+    }
 
     public void splitSetSubmissionDetails(String submissionString) {
         String submissionDetailString = extractFileNameWithoutExtension(submissionString);

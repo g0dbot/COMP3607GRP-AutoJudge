@@ -59,6 +59,7 @@ public class App {
             }
             System.out.println("Submission extracted to: " + submission.getSubmissionPath());
         });
+
     }
 
     // submissionManager.getAllSubmissions();

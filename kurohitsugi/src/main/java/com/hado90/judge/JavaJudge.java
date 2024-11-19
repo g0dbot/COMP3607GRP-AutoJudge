@@ -56,12 +56,16 @@ public class JavaJudge extends Judge {
         catch (Exception e) { System.out.println("Error while loading runner: " + e.getMessage()); }
         HashMap<String, HashMap<String, String>> results = javaTestRunner.run();
         submission.setSubmissionResults(results);
+        submission.calculateScore();
     }
 
     @Override
     public void reportSubmissionResults(Submission studentSubmission) {
         // creates result reporting
         // generates the pdf
+        PDFGenerator pdfGenerator = this.pdfGenerator;
+        pdfGenerator.generatePDF(studentSubmission,studentSubmission.getTestResults());
+        
     }
 
     public static void main(String[] args) throws Exception {
