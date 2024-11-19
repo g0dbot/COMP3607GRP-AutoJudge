@@ -42,6 +42,7 @@ public class FileManager {
     public void createFolder(String folderPath){ this.fileUtility.createFolder(folderPath); }
     public boolean fileOrDirectoryExists(String filePath) { return this.fileUtility.fileOrDirectoryExists(filePath); }
     public void deleteFile(String filePath) { this.fileUtility.deleteFile(filePath); }
+    public void deleteFolder(String folderPath) { this.fileUtility.deleteFolder(folderPath); }
     public void moveFile(String inputFilePath, String outputFilePath) { this.fileUtility.moveFile(inputFilePath, outputFilePath); }  
     public void wipeFolderContents(String folderPath) { this.fileUtility.wipeFolderContents(folderPath); }
     public List<String> getDirectoryContents (String directoryPath){ return this.fileUtility.getDirectoryContents(directoryPath);}
@@ -51,23 +52,30 @@ public class FileManager {
     public List<String> getSubdirectoryFiles(String directoryPath) { return this.fileUtility.getSubdirectoryFiles(directoryPath); }
 
     //EXTRACTORS
-    public void extract(String archivePath, String destinationPath) throws IOException {
+    public String extract(String archivePath, String destinationPath) throws IOException {
         String fileExtension = getFileExtensionFromPath(archivePath);
         Extractor extractor = extractors.get(fileExtension);
+        String uncompressedPath;
+
         if (extractor != null) {
-            extractor.extract(archivePath, destinationPath);
+            uncompressedPath = extractor.extract(archivePath, destinationPath);
         } else {
             throw new IllegalArgumentException("Unsupported archive format: " + fileExtension);
         }
+
+        return uncompressedPath;
     }
 
-    public void extract(String archivePath) throws IOException {
+    public String extract(String archivePath) throws IOException {
         String fileExtension = getFileExtensionFromPath(archivePath);
         Extractor extractor = extractors.get(fileExtension);
+        String uncompressedPath;
         if (extractor != null) {
-            extractor.extract(archivePath);
+            uncompressedPath = extractor.extract(archivePath);
         } else {
             throw new IllegalArgumentException("Unsupported archive format: " + fileExtension);
         }
+
+        return uncompressedPath;
     }
 }

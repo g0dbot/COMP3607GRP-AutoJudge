@@ -15,7 +15,7 @@ public abstract class Judge {
     private JavaTestRunner javaTestRunner;
     private PDFGenerator pdfGenerator;
 
-    public Judge(String compressedTestFilePath, FileManager fileManager, JavaCompilerUtil javaCompilerUtil,
+    public Judge(FileManager fileManager, JavaCompilerUtil javaCompilerUtil,
             JavaTestRunner javaTestRunner, PDFGenerator pdfGenerator) {
         // sets file manager instance
         this.fileManager = fileManager;

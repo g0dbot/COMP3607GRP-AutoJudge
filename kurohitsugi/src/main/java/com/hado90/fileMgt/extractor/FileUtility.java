@@ -25,6 +25,20 @@ public class FileUtility {
         if (file.exists()) { file.delete(); }
     }
 
+    //deleteFolder
+    public void deleteFolder(String folderPath) {
+        File folder = new File(folderPath);
+    
+        if (folder.exists() && folder.isDirectory()) {
+            
+            for (File file : folder.listFiles()) {
+                if (file.isDirectory()) { deleteFolder(file.getAbsolutePath()); } 
+                else { file.delete();}
+            }
+            folder.delete();
+        }
+    }
+    
     //move file to another folder
     public void moveFile(String inputFilePath, String outputFilePath) {
         File sourceFile = new File(inputFilePath);

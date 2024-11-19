@@ -123,5 +123,5 @@ public class ExtractorZip implements Extractor {
         return new File(input).getName().replaceFirst("[.][^.]+$", "");
     }
 
-    public boolean isValidCompressedFileType(String input) { return input.endsWith(".zip"); }
+    public boolean isValidCompressedFileType(String input) { return input.endsWith("zip"); }
 }
