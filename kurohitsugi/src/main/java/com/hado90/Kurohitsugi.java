@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.hado90.config.style.Style;
+import com.hado90.ui.MainScreen;
 import com.hado90.ui.SplashScreen;
 
 public class Kurohitsugi {
@@ -34,10 +35,8 @@ public class Kurohitsugi {
 
             // Now create and display the main UI
             SwingUtilities.invokeLater(() -> {
-                JFrame frame = new JFrame("Main Application");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(500, 400);
-                frame.setVisible(true);
+                MainScreen mainScreen = new MainScreen(configStyle);
+                mainScreen.display(true);
             });
         });
 

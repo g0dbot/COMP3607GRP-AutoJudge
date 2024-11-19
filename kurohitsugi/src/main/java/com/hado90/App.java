@@ -1,5 +1,6 @@
 package com.hado90;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,9 @@ import com.hado90.fileMgt.extractor.ExtractorZip;
 import com.hado90.submissionMgt.Submission;
 import com.hado90.submissionMgt.SubmissionManager;
 import com.hado90.judge.Judge;
+import com.hado90.judge.runTests.JavaTestRunner;
+import com.hado90.pdfGenerator.PDFGenerator;
+import com.hado90.pdfGenerator.Student;
 import com.hado90.judge.JavaJudge;
 
 public class App {
@@ -23,7 +27,7 @@ public class App {
 
         //get zip location of ALL submissions
         System.out.println("Extracting all submissions");
-        String locationOfSubmissions = extractorZip.extract("C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\submissions.zip", "C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN");
+        String locationOfSubmissions = extractorZip.extract("src\\main\\java\\com\\hado90\\temp\\submissions\\Student_Submissions.zip", "src\\main\\java\\com\\hado90\\temp\\submissions\\");
         System.out.println("All submissions extracted to: " + locationOfSubmissions);//confirm location
 
         //traverse directory and extract all the zips in that directory
@@ -57,6 +61,39 @@ public class App {
         submissionManager.getAllSubmissions();
 
         //now judging phase
-        Judge judge = new JavaJudge();
+        JavaTestRunner judge = new JavaTestRunner();
+        // Need to put this logic in for loop for all subbmissions -> check javatestrunner -> load submission classes -> ensure right file path for all the files
+        judge.loadRunner();
+        HashMap<String, HashMap<String, String>> results = judge.runAllTests();
+        int[] passedTests = new int[1];
+        int[] totalTestResults = new int[1];
+        results.forEach((testClassName, testResults) -> {
+            testResults.forEach((testName, result) -> {
+                if (result.substring(0, 1).equals("1")) {
+                    passedTests[0] = passedTests[0] + 1;
+                }
+            });
+        });
+        System.out.println("Total number of passed tests: " + passedTests[0]);
+            results.forEach((testClassName, testResults) -> {
+                totalTestResults[0] += testResults.size();
+            });
+        System.out.println("Total number of test results: " + totalTestResults[0]);
+        System.out.println("Percentage of passed tests: " + ((double) passedTests[0] / totalTestResults[0]) * 100);
+        String score = String.format("%.2f", ((double) passedTests[0] / totalTestResults[0]) * 100);
+        PDFGenerator pdfGenerator = new PDFGenerator(); 
+        Student s = new Student("John", "Doe", "1234567890", "Generic Course Name", "GEN101", "1", score);
+        pdfGenerator.generatePDF(s,results);
+
+        submissions.forEach((submissionId, submission) -> {
+            System.out.println("Extracting submission: " + submissionId);
+            try {
+                String extractedPath = extractorZip.extract(submission.getSubmissionPath());
+                submission.setSubmissionPath(extractedPath);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            System.out.println("Submission extracted to: " + submission.getSubmissionPath());
+        });
     }
 }

@@ -9,7 +9,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.InputStream;
 
 public class SplashScreen extends JFrame {
-    // Window settings
+    //window
     private final int borderRadius;
     private final int screenWidth;
     
