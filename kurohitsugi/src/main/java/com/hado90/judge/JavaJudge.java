@@ -1,5 +1,5 @@
-package com.hado90.judge;
+// package com.hado90.judge;
 
-public class JavaJudge implements Judge {
+// public class JavaJudge extends Judge {
     
-}
+// }

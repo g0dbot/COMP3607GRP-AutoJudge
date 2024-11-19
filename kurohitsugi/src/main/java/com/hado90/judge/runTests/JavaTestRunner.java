@@ -38,7 +38,7 @@ import java.io.File;
 
 import java.lang.reflect.Method;
 
-public class JavaTestRunner implements Judge{
+public class JavaTestRunner{
 
     // Variables to store the test and submission classes
     private static List<Class<?>> testClasses = new ArrayList<>();

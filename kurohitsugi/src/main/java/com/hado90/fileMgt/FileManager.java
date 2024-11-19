@@ -1,11 +1,8 @@
 package com.hado90.fileMgt;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.hado90.fileMgt.extractor.Extractor;
 import com.hado90.fileMgt.extractor.ExtractorZip;
@@ -54,7 +51,7 @@ public class FileManager {
     public List<String> getSubdirectoryFiles(String directoryPath) { return this.fileUtility.getSubdirectoryFiles(directoryPath); }
 
     //EXTRACTORS
-    public void extractArchive(String archivePath, String destinationPath) throws IOException {
+    public void extract(String archivePath, String destinationPath) throws IOException {
         String fileExtension = getFileExtensionFromPath(archivePath);
         Extractor extractor = extractors.get(fileExtension);
         if (extractor != null) {
@@ -64,7 +61,7 @@ public class FileManager {
         }
     }
 
-    public void extractArchive(String archivePath) throws IOException {
+    public void extract(String archivePath) throws IOException {
         String fileExtension = getFileExtensionFromPath(archivePath);
         Extractor extractor = extractors.get(fileExtension);
         if (extractor != null) {
