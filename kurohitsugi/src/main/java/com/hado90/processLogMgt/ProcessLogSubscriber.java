@@ -1,4 +1,4 @@
-package com.hado90.processLogManagement;
+package com.hado90.processLogMgt;
 
 public class ProcessLogSubscriber {
     private final ProcessLogPublisher processLogPublisher;
@@ -9,10 +9,12 @@ public class ProcessLogSubscriber {
     }
 
     public void updateLog() {
-        System.out.println("New process logs received:");
         ProcessLogIterator iterator = processLogPublisher.getProcessLogIterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }
     }
+    
+    private void updateProgressBar(String status) { System.out.println("Updating Progress Bar: " + status); }
+    private void updateProgressMessage(String message) { }
 }

@@ -1,4 +1,4 @@
-package com.hado90.processLogManagement;
+package com.hado90.processLogMgt;
 
 import java.util.List;
 

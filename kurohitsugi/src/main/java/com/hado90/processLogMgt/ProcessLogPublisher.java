@@ -1,11 +1,12 @@
-package com.hado90.processLogManagement;
+package com.hado90.processLogMgt;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.hado90.processLogManagement.ProcessLogSubscriber;
+
+import com.hado90.processLogMgt.ProcessLogSubscriber;
 
 
-public class ProcessLogPublisher {
+public abstract class ProcessLogPublisher {
     private final List<ProcessLog> processLogs = new ArrayList<>();
     private ProcessLogSubscriber processLogSubscriber;
 
@@ -16,7 +17,7 @@ public class ProcessLogPublisher {
     public void pushProgressLog(String processLogStatus, String processLogMessage, List<String> processLogDetails) {
         ProcessLog log = new ProcessLog(processLogStatus, processLogMessage, processLogDetails);
         processLogs.add(log);
-        if (processLogSubscriber != null) { processLogSubscriber. }
+        if (processLogSubscriber != null) { processLogSubscriber.updateLog(); }
     }
 
     public ProcessLogIterator getProcessLogIterator() {
