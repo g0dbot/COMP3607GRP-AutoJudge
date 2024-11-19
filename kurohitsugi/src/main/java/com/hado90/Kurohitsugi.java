@@ -1,6 +1,5 @@
 package com.hado90;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.hado90.config.style.Style;

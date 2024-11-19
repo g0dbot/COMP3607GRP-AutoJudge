@@ -1,5 +1,8 @@
 package com.hado90.judge.testRunner;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +13,7 @@ public class JavaTestRunner {
     private List<Class<?>> testClasses;
     private List<Class<?>> submissionClasses;
 
-    public JavaTestRunner(){
+    public JavaTestRunner() {
         classLoader = new JudgingClassLoader();
         testExecutor = new TestExecutor();
         testClasses = new ArrayList<>();
@@ -25,9 +28,17 @@ public class JavaTestRunner {
     }
 
     public void loadRunner() throws Exception {
-        testClasses = classLoader.loadClasses("src/main/java/com/hado90/temp/tests", "com.hado90.temp.tests");
-        submissionClasses = classLoader.loadClasses("src/main/java/com/hado90/temp/tests", "com.hado90.temp.submissions");
-        //System.out.println(getSubmissionClassByName("ChatBot").getName());
+        System.out.println("Loading runner...");
+        loadTestClasses();
+        loadSubmissionClasses();
+    }
+
+    private void loadTestClasses() throws Exception {
+        testClasses = classLoader.loadTestClasses();
+    }
+
+    private void loadSubmissionClasses() throws Exception {
+        submissionClasses = classLoader.loadSubmissionClasses();
     }
 
     public HashMap<String, HashMap<String, String>> cycleRunner() {
@@ -49,8 +60,10 @@ public class JavaTestRunner {
         return testResults;
     }
 
-    public HashMap<String, HashMap<String, String>> run() throws Exception {
-        loadRunner();
-        return cycleRunner();
+    public static void main(String[] args) throws Exception {
+        JavaTestRunner runner = new JavaTestRunner();
+        runner.loadRunner();
+        HashMap<String, HashMap<String, String>> results = runner.cycleRunner();
+        System.out.println(results);
     }
 }

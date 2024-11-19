@@ -1,12 +1,11 @@
 // package com.hado90.pdfGenerator;
 // import java.util.HashMap;  // Import HashMap
 // import java.io.IOException;
-// import org.apache.pdfbox.pdmodel.font.PDType1Font;
+// import org.apache.pegbox.pdmodel.font.PDType1Font;
 // import org.apache.pdfbox.pdmodel.PDDocument;
 // import org.apache.pdfbox.pdmodel.PDPage;
 // import org.apache.pdfbox.pdmodel.PDPageContentStream;
 // import java.util.List;
-
 
 // public class PDFGenerator {
 
@@ -85,10 +84,10 @@
 //         PDPageContentStream contentStream = new PDPageContentStream(document, page);
 //         int columns = 3;
 //         int rows = testResults.size() + 1;
-    
+
 //         // Set table headers
 //         String[] headers = {"Test Case", "Status", "Comment"};
-        
+
 //         // Set table properties
 //         float tableWidth = 500;
 //         float tableHeight = 300;
@@ -96,7 +95,7 @@
 //         float cellHeight = tableHeight / rows;
 //         float startX = 50;
 //         float startY = 700;  // Starting point for the table
-    
+
 //         // Draw table grid
 //         contentStream.setLineWidth(1f);
 //         for (int i = 0; i <= rows; i++) {
@@ -109,13 +108,13 @@
 //             contentStream.lineTo(startX + i * cellWidth, startY - tableHeight);
 //             contentStream.stroke();
 //         }
-    
+
 //         // Add data to table cells
 //         contentStream.setFont(PDType1Font.HELVETICA, 12);  // Changed to HELVETICA font
-    
+
 //         // Adjusted Y-position for header row to provide more space from the top
 //         float headerY = startY - 30;  // Slightly lower than before for a tiny bit more space
-    
+
 //         // Handle table headers (first row)
 //         for (int col = 0; col < columns; col++) {
 //             float x = startX + col * cellWidth + 5;  // Add padding inside the cell
@@ -125,7 +124,7 @@
 //             contentStream.showText(headers[col]);
 //             contentStream.endText();
 //         }
-    
+
 //         // Handle table data (remaining rows)
 //         for (int row = 1; row < rows; row++) {
 //             int index = row - 1; // Skip header row
@@ -133,7 +132,7 @@
 //             testCase[0] = "Test" + (index + 1);
 //             testCase[1] = "Pass";  // Example data
 //             testCase[2] = "No issues"; // Example data
-    
+
 //             for (int col = 0; col < columns; col++) {
 //                 float x = startX + col * cellWidth + 5;  // Padding inside the cell
 //                 float y = startY - (row + 1) * cellHeight + 5; // Adjusted Y for correct positioning
@@ -143,10 +142,10 @@
 //                 contentStream.endText();
 //             }
 //         }
-    
+
 //         contentStream.close();
 //     }
-    
+
 // }
 
 // // public class PDFGenerator {
@@ -220,14 +219,14 @@
 // // }
 
 package com.hado90.pdfGenerator;
-import java.util.HashMap;  // Import HashMap
+
+import java.util.HashMap; // Import HashMap
 import java.io.IOException;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-
 
 public class PDFGenerator {
 
@@ -268,18 +267,20 @@ public class PDFGenerator {
             int pageNum = 1;
             // System.out.println("Test Results:");
             // for (String className : testResults.keySet()) {
-            //     System.out.println(className);
-            //     for (String testName : testResults.get(className).keySet()) {
-            //         System.out.println("  " + testName + ": " + testResults.get(className).get(testName));
-            //     }
+            // System.out.println(className);
+            // for (String testName : testResults.get(className).keySet()) {
+            // System.out.println(" " + testName + ": " +
+            // testResults.get(className).get(testName));
             // }
-            
+            // }
+
             for (String className : testResults.keySet()) {
                 System.out.println(className);
-                
+
                 PDPage page2 = new PDPage();
                 document.addPage(page2);
-                try (PDPageContentStream contentStream2 = new PDPageContentStream(document, document.getPage(pageNum))) {
+                try (PDPageContentStream contentStream2 = new PDPageContentStream(document,
+                        document.getPage(pageNum))) {
                     contentStream2.beginText();
                     contentStream2.setFont(PDType1Font.HELVETICA, 24);
                     contentStream2.setLeading(15.5f);

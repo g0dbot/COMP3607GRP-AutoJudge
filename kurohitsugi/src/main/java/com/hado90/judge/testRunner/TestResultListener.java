@@ -1,12 +1,12 @@
 package com.hado90.judge.testRunner;
 
-import java.util.HashMap;
-
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 
-public class TestResultListener implements TestExecutionListener{
+import java.util.HashMap;
+
+public class TestResultListener implements TestExecutionListener {
     private HashMap<String, String> results;
 
     public TestResultListener() {

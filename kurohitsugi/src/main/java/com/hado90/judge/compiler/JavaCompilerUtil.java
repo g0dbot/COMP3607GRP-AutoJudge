@@ -48,7 +48,7 @@ public class JavaCompilerUtil {
         
             // Specify the source folder and output path for the test class
             String testSourceFolderPath = "C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\classesandtests\\tests"; // Path to the folder containing test files
-            String testOutputPath = "src" + File.separator + "main" + File.separator + "java"; // Target output path for test files
+            String testOutputPath = "kurohitsugi" + File.separator + "src" + File.separator + "main" + File.separator + "java"; // Target output path for test files
             String testPackageName = "com.hado90.temp.tests"; // Package name for test files
         
             // Compile the test class with the package information
@@ -56,7 +56,7 @@ public class JavaCompilerUtil {
         
             // Compile all Java files in the student folder
             String submissionSourceFolder = "C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\classesandtests\\testsubjects"; // Path to student folder
-            String submissionOutputPath = "src" + File.separator + "main" + File.separator + "java"; // Target output path for student files
+            String submissionOutputPath = "kurohitsugi" + File.separator + "src" + File.separator + "main" + File.separator + "java"; // Target output path for student files
             String submissionPackageName = "com.hado90.temp.submissions"; // Package name for student files
         
             // Compile the student's Java files
