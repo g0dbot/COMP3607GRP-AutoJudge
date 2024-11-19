@@ -40,7 +40,7 @@ public class JavaJudge extends Judge {
         String submissionOutputPath = "kurohitsugi" + File.separator + "src" + File.separator + "main" + File.separator
                 + "java";
 
-        String submissionPackageName = "com.hado90.temp.tests";
+        String submissionPackageName = "com.hado90.temp.submissions";
 
         try {
             javaCompilerUtil.compileClassesWithPackage(submissionPath, submissionOutputPath, submissionPackageName);
@@ -78,5 +78,11 @@ public class JavaJudge extends Judge {
                 javaTestRunner, pdfGenerator);
         judge.prepareCriteria("C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\classesandtests\\tests");
 
+        Submission submission = new Submission("C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\classesandtests\\testsubjects");
+        judge.prepareSubmission(submission);
+        judge.judgeSubmission(submission);
+        System.out.println(submission.getTestResults());
+        judge.cleanupSubmission();
+        judge.cleanupJudge();
     }
 }
