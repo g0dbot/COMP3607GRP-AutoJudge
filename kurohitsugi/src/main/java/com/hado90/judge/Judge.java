@@ -1,20 +1,31 @@
 package com.hado90.judge;
 
+import java.io.File;
+
 import com.hado90.fileMgt.FileManager;
+import com.hado90.judge.compiler.JavaCompilerUtil;
+import com.hado90.judge.testRunner.JavaTestRunner;
+import com.hado90.pdfGenerator.PDFGenerator;
 import com.hado90.submissionMgt.Submission;
 
 public abstract class Judge {
 
     private FileManager fileManager;
+    private JavaCompilerUtil javaCompilerUtil;
+    private JavaTestRunner javaTestRunner;
+    private PDFGenerator pdfGenerator;
 
-    public Judge(String compressedTestFilePath, FileManager fileManager) {
+    public Judge(String compressedTestFilePath, FileManager fileManager, JavaCompilerUtil javaCompilerUtil,
+            JavaTestRunner javaTestRunner, PDFGenerator pdfGenerator) {
         // sets file manager instance
         this.fileManager = fileManager;
-        // takes the path to tests and unzips and processes them
-        // prepareCriteria(compressedTestFilePath);
+        this.javaCompilerUtil = javaCompilerUtil;
+        this.javaTestRunner = javaTestRunner;
+        this.pdfGenerator = pdfGenerator;
     }
 
     public void prepareCriteria(String compressedTestFilePath) {
+        // takes the path to tests and unzips and processes them
         // processes the test
         // compile and store in temp/tests
     }
@@ -24,7 +35,7 @@ public abstract class Judge {
         // uses path to compile and store in temp/submissions
     }
 
-    public void judgeSubmission(Submission studentSubmission) {
+    public void judgeSubmission(Submission submission) {
         // loads the test classes and submission classes
         // runs the tests
         // captures the result in submission
@@ -35,12 +46,20 @@ public abstract class Judge {
         // generates the pdf
     }
 
-    public void cleanupSubmission() {
-        // deletes the temp files for that students submission
-        // temp/submission
+    public void cleanupSubmission() { this.fileManager.wipeFolderContents("kurohitsugi/src/main/java/com/hado90/temp/submissions"); }
+
+    public void cleanupJudge() { this.fileManager.wipeFolderContents("kurohitsugi/src/main/java/com/hado90/temp/tests"); }
+
+    // accessors
+    public FileManager getFileManager() {
+        return this.fileManager;
     }
 
-    public void cleanupJudge() {
-        // cleans up after judge is finished
+    public JavaCompilerUtil getJavaCompilerUtil() {
+        return this.javaCompilerUtil;
+    }
+
+    public JavaTestRunner getJavaTestRunner() {
+        return this.javaTestRunner;
     }
 }

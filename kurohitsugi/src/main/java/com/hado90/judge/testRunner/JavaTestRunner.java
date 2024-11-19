@@ -41,7 +41,7 @@ public class JavaTestRunner {
         submissionClasses = classLoader.loadSubmissionClasses();
     }
 
-    public HashMap<String, HashMap<String, String>> cycleRunner() {
+    public HashMap<String, HashMap<String, String>> run() {
         HashMap<String, HashMap<String, String>> testResults = new HashMap<>();
 
         for (Class<?> testClass : testClasses) {
@@ -63,7 +63,7 @@ public class JavaTestRunner {
     public static void main(String[] args) throws Exception {
         JavaTestRunner runner = new JavaTestRunner();
         runner.loadRunner();
-        HashMap<String, HashMap<String, String>> results = runner.cycleRunner();
+        HashMap<String, HashMap<String, String>> results = runner.run();
         System.out.println(results);
     }
 }
