@@ -15,6 +15,7 @@ public class Submission {
     private String submissionPath;
     private String submissionStatus;
     private String submissionComment;
+    private String score;
 
     private HashMap<String, HashMap<String, String>> testResults;
 

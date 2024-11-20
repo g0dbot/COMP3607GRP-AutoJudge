@@ -15,10 +15,10 @@ import com.hado90.submissionMgt.Submission;
  */
 public abstract class Judge {
 
-    private FileManager fileManager;
-    private JavaCompilerUtil javaCompilerUtil;
-    private JavaTestRunner javaTestRunner;
-    private PDFGenerator pdfGenerator;
+    protected FileManager fileManager;
+    protected JavaCompilerUtil javaCompilerUtil;
+    protected JavaTestRunner javaTestRunner;
+    protected PDFGenerator pdfGenerator;
 
     /**
      * Constructs a new Judge instance with the necessary utilities for judging Java assignments.
