@@ -205,7 +205,7 @@ public class Submission {
      */
     public void splitSetSubmissionDetails(String submissionString) {
         String submissionDetailString = extractFileNameWithoutExtension(submissionString);
-
+        
         submissionDetailString = submissionDetailString.replaceFirst("[.][^.]+$", "");
 
         String[] submissionArray = submissionDetailString.split("_");

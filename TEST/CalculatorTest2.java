@@ -22,6 +22,7 @@ public class CalculatorTest2 {
             Object calculatorInstance = calculatorClass.getDeclaredConstructor().newInstance();
 
             Method addMethod = calculatorClass.getMethod("add2", int.class, int.class);
+
             dynamicTests.add(DynamicTest.dynamicTest("Test Calculator2.add2", () -> {
                 try {
                     assertEquals(5, addMethod.invoke(calculatorInstance, 2, 3));
@@ -29,7 +30,7 @@ public class CalculatorTest2 {
                 } catch (AssertionError e) {
                     System.out.println(
                             "Expected add2(2, 3) to return 5, but got " + addMethod.invoke(calculatorInstance, 2, 3));
-                    throw new AssertionError("test faileds");
+                    throw new AssertionError("test failed");
                 }
             }));
             // for assertion errors to return the helpful message, check javatestrunner ->

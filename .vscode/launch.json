@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "JavaJudge",
+            "request": "launch",
+            "mainClass": "com.hado90.judge.JavaJudge",
+            "projectName": "kurohitsugi"
+        },
+        {
+            "type": "java",
             "name": "Kurohitsugi",
             "request": "launch",
             "mainClass": "com.hado90.Kurohitsugi",

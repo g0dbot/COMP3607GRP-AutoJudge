@@ -36,7 +36,7 @@ public class JudgingClassLoader {
         // List all files in the directory that end with .class (compiled classes)
         File[] testFiles = testDir.listFiles((dir, name) -> name.endsWith(".class"));
 
-        System.out.println(testFiles.length); // Debug output to display the number of test classes found
+        System.out.println("Number of test classes found: "+testFiles.length); // Debug output to display the number of test classes found
 
         // Load each class file found in the directory
         if (testFiles != null) {
@@ -78,7 +78,7 @@ public class JudgingClassLoader {
         // List all files in the directory that end with .class (compiled classes)
         File[] testFiles = testDir.listFiles((dir, name) -> name.endsWith(".class"));
 
-        System.out.println(testFiles.length); // Debug output to display the number of submission classes found
+        System.out.println("Number of subject classes found: "+testFiles.length); // Debug output to display the number of submission classes found
 
         // Load each class file found in the directory
         if (testFiles != null) {

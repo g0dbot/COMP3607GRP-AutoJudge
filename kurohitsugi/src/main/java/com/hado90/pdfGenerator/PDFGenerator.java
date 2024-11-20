@@ -1,6 +1,7 @@
 package com.hado90.pdfGenerator;
 
 import java.util.HashMap;
+import java.io.File;
 import java.io.IOException;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
@@ -25,11 +26,10 @@ public class PDFGenerator {
      *                    with the test suite names as keys and another HashMap with test names and their results as values.
      */
     public void generatePDF(Submission studentSubmission, HashMap<String, HashMap<String, String>> testResults) {
-        String path = studentSubmission.getSubmissionPath();
+        String path = studentSubmission.getSubmissionPath() + File.separator;
         String filename = path + studentSubmission.getSubmissionId() + "_"
                 + studentSubmission.getSubmissionFirstName() + "_"
-                + studentSubmission.getSubmissionLastName() + "_"
-                + "A1" + "_Feedback.pdf";
+                + studentSubmission.getSubmissionLastName() + "_" +"_Feedback.pdf";
 
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage();

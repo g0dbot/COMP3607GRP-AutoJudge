@@ -120,7 +120,8 @@ public class DashScreen extends Screen {
         System.out.println(validList);
 
         SUBMISSION_MANAGER.bulkAddSubmissions(validList);
-
+        SUBMISSION_MANAGER.getAllSubmissions();
+        
         //PREPARE JUDGE
         JAVA_JUDGE.prepareCriteria(testBulkFilePath);
 
