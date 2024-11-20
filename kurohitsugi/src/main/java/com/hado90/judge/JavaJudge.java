@@ -98,6 +98,7 @@ public class JavaJudge extends Judge {
         
         HashMap<String, HashMap<String, String>> results = javaTestRunner.run();
         submission.setSubmissionResults(results);
+        //Sysetm.out.println(results);
     }
 
     /**
@@ -110,6 +111,7 @@ public class JavaJudge extends Judge {
     public void reportSubmissionResults(Submission studentSubmission) {
         // Placeholder for result reporting, including PDF generation
         // Creates result reporting and generates the PDF.
+        pdfGenerator.generatePDF(studentSubmission, studentSubmission.getTestResults());
     }
 
     /**

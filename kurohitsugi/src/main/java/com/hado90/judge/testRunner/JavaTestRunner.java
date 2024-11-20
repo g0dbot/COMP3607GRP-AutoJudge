@@ -62,6 +62,7 @@ public class JavaTestRunner {
      */
     private void loadTestClasses() throws Exception {
         testClasses = classLoader.loadTestClasses();
+        System.out.println("are there test classes: " + testClasses != null);
     }
 
     /**
@@ -71,6 +72,7 @@ public class JavaTestRunner {
      */
     private void loadSubmissionClasses() throws Exception {
         submissionClasses = classLoader.loadSubmissionClasses();
+        System.out.println(submissionClasses != null);
     }
 
     /**
@@ -94,11 +96,13 @@ public class JavaTestRunner {
                         HashMap<String, String> result = testExecutor.runTest(testClass);
                         testResults.put(testClassNameWithoutTest, result);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
                 }
             }
         }
+
+        System.out.println(testResults);
         return testResults;
     }
 
