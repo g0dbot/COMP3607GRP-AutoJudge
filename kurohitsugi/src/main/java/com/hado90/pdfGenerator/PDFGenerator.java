@@ -6,9 +6,6 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import com.hado90.submissionMgt.Submission;
 
-
-import com.hado90.submissionMgt.Submission;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -44,20 +41,15 @@ public class PDFGenerator {
             contentStream.setLeading(25.5f);
             contentStream.newLineAtOffset(50, 720);
             contentStream.showText("Student Name: " + studentSubmission.getSubmissionFirstName() + " " + studentSubmission.getSubmissionLastName());
-            contentStream.showText("Student Name: " + studentSubmission.getSubmissionFirstName() + " " + studentSubmission.getSubmissionLastName());
             contentStream.newLine();
-            contentStream.showText("Student ID: " + studentSubmission.getSubmissionId());
             contentStream.showText("Student ID: " + studentSubmission.getSubmissionId());
             contentStream.newLine();
             contentStream.setFont(PDType1Font.HELVETICA, 16);
             contentStream.showText("Course Name: Object Oriented Programming");
-            contentStream.showText("Course Name: Object Oriented Programming");
             contentStream.newLine();
-            contentStream.showText("Course Code: COMP2603");
             contentStream.showText("Course Code: COMP2603");
             contentStream.newLine();
             contentStream.setFont(PDType1Font.HELVETICA, 12);
-            contentStream.showText("Assignment #: A1");
             contentStream.showText("Assignment #: A1");
             contentStream.newLine();
             //contentStream.showText("Score: " + studentSubmission.getScore() + "%");
