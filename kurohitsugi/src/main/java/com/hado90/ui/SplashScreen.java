@@ -103,9 +103,18 @@ public class SplashScreen extends JFrame {
         }
     }
 
-    // Update progress bar
     public void updateSplashLoaderProgress(int progress) {
-        this.splashProgressBar.setValue(progress);
+        int currentProgress = this.splashProgressBar.getValue();
+
+        int targetProgress = Math.min(100, Math.max(0, progress));
+
+        while (currentProgress < targetProgress) {
+            currentProgress++;
+            this.splashProgressBar.setValue(currentProgress);
+
+            try { Thread.sleep(10); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+        }
     }
 
     // Show splash screen
@@ -115,6 +124,8 @@ public class SplashScreen extends JFrame {
 
     // Close splash screen
     public void closeSplashScreen() {
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 1000) { }
         setVisible(false);
         dispose();
     }

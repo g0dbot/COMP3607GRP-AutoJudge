@@ -10,11 +10,26 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * Style class implements the Config interface to manage configuration settings
+ * related to style. The class loads configurations from a JSON file and provides
+ * methods to get and set style-specific configuration values.
+ */
 public class Style implements Config {
 
+    /**
+     * A map that holds the configuration values with their corresponding StyleKey.
+     * The map is made unmodifiable after the config is loaded to prevent further changes.
+     */
     private static Map<StyleKey, String> configValues = new HashMap<>();
 
-    //contract init
+    /**
+     * Loads configuration values from the specified JSON file. The file is expected
+     * to contain key-value pairs where keys correspond to {@link StyleKey} enum values.
+     * 
+     * @param configFilePath the relative path to the JSON configuration file.
+     * @throws FileNotFoundException if the specified configuration file cannot be found.
+     */
     @Override
     public void loadConfig(String configFilePath) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -45,7 +60,14 @@ public class Style implements Config {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Retrieves the configuration value associated with the specified key.
+     * The key is expected to be one of the defined {@link StyleKey} enum values.
+     *
+     * @param key the key to retrieve the configuration value for.
+     * @return the configuration value associated with the key, or null if the key is invalid.
+     */
     public static String getConfigValue(String key) {
         try {
             StyleKey styleKey = StyleKey.valueOf(key); // Convert String to StyleKey
@@ -56,6 +78,15 @@ public class Style implements Config {
         }
     }
 
+    /**
+     * Sets a configuration value for the specified key. The key must already exist in
+     * the configuration, as new keys cannot be added after the configuration has been loaded.
+     *
+     * @param key   the key for which the value should be set.
+     * @param value the new value to set for the configuration key.
+     * @throws UnsupportedOperationException if attempting to add a new key to the configuration.
+     * @throws IllegalArgumentException if the key is invalid.
+     */
     @Override
     public void setConfigValue(String key, String value) {
         try {
@@ -67,5 +98,5 @@ public class Style implements Config {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid key: " + key, e);
         }
-}
+    }
 }

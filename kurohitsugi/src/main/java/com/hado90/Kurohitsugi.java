@@ -3,28 +3,28 @@ package com.hado90;
 import javax.swing.SwingUtilities;
 
 import com.hado90.config.style.Style;
-import com.hado90.fileMgt.FileManager;
-import com.hado90.judge.JavaJudge;
-import com.hado90.judge.Judge;
-import com.hado90.judge.compiler.JavaCompilerUtil;
-import com.hado90.judge.testRunner.JavaTestRunner;
-import com.hado90.pdfGenerator.PDFGenerator;
-import com.hado90.submissionMgt.SubmissionManager;
-import com.hado90.ui.MainScreen;
+import com.hado90.ui.screen.DashScreen;
+import com.hado90.ui.screen.Screen;
 import com.hado90.ui.SplashScreen;
 
+
+/**
+ * Main entry point of the application, responsible for loading necessary services,
+ * initializing UI components, and displaying the main dashboard screen after
+ * loading the required components.
+ */
 public class Kurohitsugi {
+     /**
+     * The main method that initializes various services and manages the splash screen display
+     * while loading resources. Once all resources are loaded, it transitions to the main dashboard.
+     *
+     * @param args the command-line arguments (not used in this case)
+     * @throws Exception if any error occurs during the loading or initialization of services
+     */
     public static void main(String[] args) throws Exception {
 
         //ALL SERVICES AND MANAGERS
         String[] ACCEPTED_TYPES = {"zip"};
-
-        final FileManager FILE_MANAGER;
-        final SubmissionManager SUBMISSION_MANAGER;
-        final JavaCompilerUtil JAVA_COMPILER_UTIL;
-        final Judge JAVA_JUDGE;
-        final JavaTestRunner JAVA_TEST_RUNNER;
-        final PDFGenerator PDF_GENERATOR;
 
         //load style config
         Style configStyle = new Style();
@@ -34,29 +34,33 @@ public class Kurohitsugi {
         SplashScreen splashScreen = new SplashScreen();
         splashScreen.showSplashScreen();        
 
-        Thread loadingThread = new Thread(() -> {
-            try {
-                FILE_MANAGER = new FileManager(ACCEPTED_TYPES);
-                SUBMISSION_MANAGER = new SubmissionManager();
-                JAVA_COMPILER_UTIL = new JavaCompilerUtil(FILE_MANAGER);
-                JAVA_TEST_RUNNER = new JavaTestRunner();
-                PDF_GENERATOR = new PDFGenerator();
-                JAVA_JUDGE = new JavaJudge(FILE_MANAGER, JAVA_COMPILER_UTIL, JAVA_TEST_RUNNER, PDF_GENERATOR);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            long startTime = System.currentTimeMillis();
 
-            // After loading completes, close the splash screen and show the main UI
-            splashScreen.closeSplashScreen();
+            splashScreen.updateSplashLoaderProgress(10);
 
-            // Now create and display the main UI
-            SwingUtilities.invokeLater(() -> {
-                MainScreen mainScreen = new MainScreen(configStyle);
-                mainScreen.display(true);
-            });
+            splashScreen.updateSplashLoaderProgress(20);
+
+            splashScreen.updateSplashLoaderProgress(40);
+
+            splashScreen.updateSplashLoaderProgress(60);
+
+            splashScreen.updateSplashLoaderProgress(80);
+
+            splashScreen.updateSplashLoaderProgress(100);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        // After loading completes, close the splash screen and show the main UI
+        splashScreen.closeSplashScreen();
+
+        SwingUtilities.invokeLater(() -> {
+            Screen mainScreen = new DashScreen(configStyle);
+            mainScreen.display();
         });
-
-        // Start the loading thread
-        loadingThread.start();
     }
 }

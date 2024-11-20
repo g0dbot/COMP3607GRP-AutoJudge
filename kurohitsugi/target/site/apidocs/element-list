@@ -1,0 +1,13 @@
+com.hado90
+com.hado90.config
+com.hado90.config.style
+com.hado90.fileMgt
+com.hado90.fileMgt.extractor
+com.hado90.judge
+com.hado90.judge.compiler
+com.hado90.judge.testRunner
+com.hado90.pdfGenerator
+com.hado90.processLogMgt
+com.hado90.submissionMgt
+com.hado90.ui
+com.hado90.ui.screen
