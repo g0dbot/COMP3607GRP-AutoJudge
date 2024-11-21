@@ -70,7 +70,7 @@ public class DashScreen extends Screen {
                
 
         statusLabel = new JLabel("Status: Waiting for user input...");
-        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
         statusLabel.setFont(new Font("Monospace", Font.PLAIN, 14));
         
 
