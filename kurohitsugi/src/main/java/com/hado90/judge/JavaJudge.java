@@ -113,33 +113,5 @@ public class JavaJudge extends Judge {
         // Creates result reporting and generates the PDF.
         pdfGenerator.generatePDF(studentSubmission, studentSubmission.getTestResults());
     }
-
-    /**
-     * Main method that demonstrates the entire judging flow for a Java programming assignment.
-     * It prepares the criteria, compiles and judges the student's submission, and cleans up.
-     * 
-     * @param args the command-line arguments.
-     * @throws Exception if an error occurs during the judging process.
-     */
-    public static void main(String[] args) throws Exception {
-        FileManager fileManager = new FileManager(new String[] {"zip"});
-        JavaCompilerUtil javaCompilerUtil = new JavaCompilerUtil(fileManager);
-        JavaTestRunner javaTestRunner = new JavaTestRunner();
-        PDFGenerator pdfGenerator = new PDFGenerator();
-
-        JavaJudge judge = new JavaJudge(fileManager, javaCompilerUtil, javaTestRunner, pdfGenerator);
-        
-        // Start of the flow
-        judge.prepareCriteria("C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\classesandtests\\tests.zip");
-
-        // Iterate over each submission
-        Submission submission = new Submission("C:\\Users\\g0dbot\\Desktop\\TESTINGAIZEN\\classesandtests\\testsubjects");
-        judge.prepareSubmission(submission);
-        judge.judgeSubmission(submission);
-        judge.cleanupSubmission();
-
-        // After the entire process
-        judge.cleanupJudge();
-    }
 }
 
