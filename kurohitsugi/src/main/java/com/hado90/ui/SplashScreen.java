@@ -7,6 +7,13 @@ import com.hado90.config.style.Style;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.io.InputStream;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+
+import java.nio.file.Paths;
 
 public class SplashScreen extends JFrame {
     //window
@@ -28,22 +35,22 @@ public class SplashScreen extends JFrame {
     //ui components
     private JProgressBar splashProgressBar;
     private JLabel splashImage;
-    private JPanel fillerPanel;
+    private JLabel fillerPanel;
 
     public SplashScreen() throws Exception {
 
-        this.borderRadius = Integer.parseInt(Style.getConfigValue("SIZE_XS1"));
+        this.borderRadius = Integer.parseInt(Style.getConfigValue("SIZE_M2"));
         this.screenWidth = Integer.parseInt(Style.getConfigValue("SIZE_WIN_WIDTH_S"));
     
         this.imgWidth = Integer.parseInt(Style.getConfigValue("SIZE_WIN_WIDTH_S"));
         this.imgHeight = Integer.parseInt(Style.getConfigValue("SIZE_WIN_WIDTH_S"));
 
         this.progressBarHeight = Integer.parseInt(Style.getConfigValue("SIZE_XS1"));
-        this.progressBarFGColor = decodeColor(Style.getConfigValue("PRIMARY_COLOR_SHADE_ACTIVE"));
-        this.progressBarBGColor = decodeColor(Style.getConfigValue("BG_MAIN_COLOR"));
+        this.progressBarFGColor = decodeColor(Style.getConfigValue("TEXT_MAIN_COLOR"));
+        this.progressBarBGColor = decodeColor(Style.getConfigValue("PRIMARY_COLOR_SHADE_DISABLED"));
 
         this.fillerPanelHeight = Integer.parseInt(Style.getConfigValue("SIZE_XL2"));    
-        this.fillerPanelBGColor = decodeColor(Style.getConfigValue("BG_MAIN_COLOR"));
+        this.fillerPanelBGColor = decodeColor(Style.getConfigValue("BG_SECONDARY_COLOR"));
     
         this.screenHeight = imgHeight + progressBarHeight + fillerPanelHeight;
 
@@ -54,7 +61,7 @@ public class SplashScreen extends JFrame {
         //create components
         this.splashImage = createSplashImgLabel("img/logo.jpg", imgWidth, imgHeight);
         this.splashProgressBar = createSplashProgressBar(progressBarFGColor, progressBarBGColor, screenWidth, progressBarHeight);
-        this.fillerPanel = createFillerPanel(screenWidth, fillerPanelHeight, fillerPanelBGColor);
+        this.fillerPanel = createTextLabel(screenWidth, fillerPanelHeight, fillerPanelBGColor, "Hello");
 
         setSize(screenWidth, screenHeight);
         setLocationRelativeTo(null);//center screen
@@ -88,12 +95,20 @@ public class SplashScreen extends JFrame {
     }
 
     // Create filler panel
-    private JPanel createFillerPanel(int width, int height, Color bgColor) {
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(width, height));
-        panel.setBackground(bgColor);
-        return panel;
+    private JLabel createTextLabel(int width, int height, Color bgColor, String initialText) {
+        JLabel label = new JLabel(initialText);
+        label.setForeground(decodeColor(Style.getConfigValue("TEXT_DISABLED_COLOR")));
+        label.setPreferredSize(new Dimension(width, height));
+        label.setOpaque(true);
+        label.setBackground(bgColor);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        return label;
     }
+
+    public void updateTextLabel(String text) {
+        this.fillerPanel.setText(text);
+    }
+    
 
     private Color decodeColor(String colorCode) {
         try {
@@ -123,9 +138,21 @@ public class SplashScreen extends JFrame {
     }
 
     // Close splash screen
+
     public void closeSplashScreen() {
-        long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTime < 1000) { }
+        Platform.startup(() -> { 
+            Media media = new Media(Paths.get("kurohitsugi\\src\\main\\resources\\kurohitsugi.mp3").toUri().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+    
+            mediaPlayer.setOnEndOfMedia(() -> {
+                setVisible(false);
+                dispose();
+            });
+    
+            mediaPlayer.play();
+        });
+        // long startTime = System.currentTimeMillis();
+        // while (System.currentTimeMillis() - startTime < 1000) { }
         setVisible(false);
         dispose();
     }

@@ -1,19 +1,20 @@
 package com.hado90.ui.screen;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 public class JudgeButtonPanel extends JPanel {
     private JButton judgeButton;
 
-    public JudgeButtonPanel(DashScreen dashScreen) {
+    public JudgeButtonPanel(DashScreen dashScreen, Color bgBtn, Color fgbtn) {
         setLayout(new FlowLayout(FlowLayout.CENTER));
 
         judgeButton = new JButton("JUDGE");
         judgeButton.setPreferredSize(new Dimension(150, 40));
-        judgeButton.setBackground(Color.RED);
-        judgeButton.setFont(new Font("Arial", Font.PLAIN, 20));
-        judgeButton.setForeground(Color.WHITE);
+        judgeButton.setBackground(bgBtn);
+        judgeButton.setFont(new Font("Monospace", Font.PLAIN, 20));
+        judgeButton.setForeground(fgbtn);
         judgeButton.setEnabled(false);
 
         judgeButton.addActionListener(e -> {
@@ -36,4 +37,5 @@ public class JudgeButtonPanel extends JPanel {
             judgeButton.setBackground(Color.RED);
         }
     }
+
 }

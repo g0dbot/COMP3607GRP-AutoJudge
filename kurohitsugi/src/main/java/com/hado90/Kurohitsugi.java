@@ -37,16 +37,27 @@ public class Kurohitsugi {
         try {
             long startTime = System.currentTimeMillis();
 
+            splashScreen.updateTextLabel("The oozing crest of corruption.");
             splashScreen.updateSplashLoaderProgress(10);
-
+            splashScreen.updateTextLabel("The arrogant vessel of madness.");
             splashScreen.updateSplashLoaderProgress(20);
-
+            splashScreen.updateTextLabel("Deny the seething urge");
+            splashScreen.updateSplashLoaderProgress(30);
+            splashScreen.updateTextLabel("To let things stun and flicker.");
             splashScreen.updateSplashLoaderProgress(40);
-
+            splashScreen.updateTextLabel("Disrupt the sleep.");
+            splashScreen.updateSplashLoaderProgress(50);
+            splashScreen.updateTextLabel("The crawling princess of iron.");
             splashScreen.updateSplashLoaderProgress(60);
-
+            splashScreen.updateTextLabel("The eternally self-destructing");
+            splashScreen.updateSplashLoaderProgress(70);
+            splashScreen.updateTextLabel("Doll of Mud.");
             splashScreen.updateSplashLoaderProgress(80);
-
+            splashScreen.updateTextLabel("Unite, repulse, fill the earth");
+            splashScreen.updateSplashLoaderProgress(90);
+            splashScreen.updateTextLabel("And know your own powerlessness.");
+            splashScreen.updateSplashLoaderProgress(95);
+            splashScreen.updateTextLabel("Hado #90");
             splashScreen.updateSplashLoaderProgress(100);
         }
         catch (Exception e)

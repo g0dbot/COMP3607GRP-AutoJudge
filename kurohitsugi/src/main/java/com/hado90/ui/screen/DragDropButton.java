@@ -1,6 +1,9 @@
 package com.hado90.ui.screen;
 
 import javax.swing.*;
+
+import com.hado90.config.style.Style;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
@@ -10,9 +13,9 @@ import java.util.List;
 public class DragDropButton extends JButton {
     public DragDropButton(String type, Color btnColor, String pathType) {
         super("Drag or Select " + type);
-        setPreferredSize(new Dimension(150, 40));
+        setPreferredSize(new Dimension(100, 64));
         setBackground(btnColor);
-        setFont(new Font("Arial", Font.PLAIN, 15));
+        setFont(new Font("Monospaced", Font.PLAIN, 11));
         setForeground(Color.WHITE);
 
         new DropTarget(this, DnDConstants.ACTION_COPY, new DropTargetAdapter() {

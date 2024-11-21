@@ -1,5 +1,6 @@
 package com.hado90.ui.screen;
 
+import com.hado90.config.Config;
 import com.hado90.config.style.Style;
 import com.hado90.fileMgt.FileManager;
 import com.hado90.fileMgt.extractor.ExtractorZip;
@@ -26,12 +27,16 @@ public class DashScreen extends Screen {
     private int gapWidth;
 
     private Color btnColor;
+    private Color judgeBgColor;
+    private Color judgeFgColor;
 
     private boolean isStudentPathSet = false;
     private boolean isTestPathSet = false;
     private boolean isOutputPathSet = false;
 
     private JudgeButtonPanel judgeButtonPanel;
+    private JLabel statusLabel;
+    public JProgressBar progressbar;
 
     public DashScreen(Style configStyle) {
         super(configStyle);
@@ -39,28 +44,46 @@ public class DashScreen extends Screen {
 
     @Override
     protected void addContent(JPanel contentPanel) {
-        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-        this.gapHeight = Integer.parseInt(Style.getConfigValue("SIZE_XS1"));
+        this.gapHeight = Integer.parseInt(Style.getConfigValue("SIZE_S1"));
         this.gapWidth = Integer.parseInt(Style.getConfigValue("SIZE_XS1"));
-        this.btnColor = decodeColor(Style.getConfigValue("BG_SECONDARY_COLOR"));
-       
+        this.btnColor = super.decodeColor(Style.getConfigValue("PRIMARY_COLOR_SHADE_DISABLED"));
+        this.judgeBgColor = super.decodeColor(Style.getConfigValue("PRIMARY_COLOR_SHADE_MAIN"));
+        this.judgeFgColor = super.decodeColor(Style.getConfigValue("TEXT_MAIN_COLOR"));
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 4, gapWidth, gapHeight));
+        buttonPanel.setLayout(new GridLayout(1, 3, gapWidth, gapHeight));
+        
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 25, 10));
+        buttonPanel.setBackground(decodeColor(Style.getConfigValue("BG_SECONDARY_COLOR")));
 
         buttonPanel.add(new DragDropButton("Student Submissions Compressed", btnColor, "Student Bulk File Path"));
         buttonPanel.add(new DragDropButton("Test Compressed File Path", btnColor, "Test Bulk File Path"));
         buttonPanel.add(new DragDropButton("Output File Path", btnColor, "Output File Path"));
 
+        this.progressbar = new JProgressBar();
+        this.progressbar.setPreferredSize(new Dimension(getWidth() - 40, 100)); 
+        this.progressbar.setMinimum(0);
+        this.progressbar.setForeground(decodeColor(Style.getConfigValue("PRIMARY_COLOR_SHADE_ACTIVE")));
+        this.progressbar.setBackground(decodeColor(Style.getConfigValue("BG_SECONDARY_COLOR")));
+               
+
+        statusLabel = new JLabel("Status: Waiting for user input...");
+        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        statusLabel.setFont(new Font("Monospace", Font.PLAIN, 14));
+        
+
+        judgeButtonPanel = new JudgeButtonPanel(this, judgeBgColor, judgeFgColor);
+
         contentPanel.add(buttonPanel, BorderLayout.NORTH);
-
-        contentPanel.add(new JProgressBar(), BorderLayout.CENTER);
-
-        contentPanel.add(new ContentPanel(), BorderLayout.CENTER);
-
-        judgeButtonPanel = new JudgeButtonPanel(this);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(progressbar, BorderLayout.CENTER);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(statusLabel, BorderLayout.CENTER);
+        contentPanel.add(Box.createVerticalStrut(10));
         contentPanel.add(judgeButtonPanel, BorderLayout.SOUTH);
+
     }
 
     public boolean isStudentPathSet() { return isStudentPathSet; }
@@ -90,6 +113,26 @@ public class DashScreen extends Screen {
         }
     }
 
+    public void updateProgressBar(int progress) {
+        int currentProgress = this.progressbar.getValue();
+
+        int targetProgress = Math.min(100, Math.max(0, progress));
+
+        while (currentProgress < targetProgress) {
+            currentProgress++;
+            this.progressbar.setValue(currentProgress);
+
+            try { Thread.sleep(10); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+        }
+    }
+
+    public void updateStatusLabel(String message) {
+        long startTime = System.currentTimeMillis();
+            while (System.currentTimeMillis() - startTime < 1000) { }
+            statusLabel.setText("Status: " + message);
+    }
+
     public void executeJudgeLogic() {
         System.out.println(studentBulkFilePath);
         System.out.println(testBulkFilePath);
@@ -105,42 +148,59 @@ public class DashScreen extends Screen {
         ExtractorZip extractorZip = (ExtractorZip) FILE_MANAGER.getExtractor("zip");
 
         String locationOfSubmissions = null;
-
+        updateStatusLabel("extracting submissions...");
         try { locationOfSubmissions = extractorZip.extract(studentBulkFilePath, outputFilePath); }
         catch (Exception e) { e.printStackTrace(); }
 
-        System.out.println("All submissions extracted to: " + locationOfSubmissions);
+        if (locationOfSubmissions == null) {
+            updateStatusLabel("Failed to extract submissions");
+            return;
+        }
 
-        System.out.println("Getting contents of submissions folder");
+        updateStatusLabel("submissions extracted to: " + locationOfSubmissions);
+
+        updateStatusLabel("getting contents of submissions...");
         List<String> list = FILE_MANAGER.fileUtility.getDirectoryContents(locationOfSubmissions);
-        System.out.println(list);
+        
+        updateStatusLabel("extracted "+ list.size() + " submissions");
 
-        System.out.println("Filtering valid compressed formats");
+        updateStatusLabel("filtering submissions...");
         List<String> validList = FILE_MANAGER.fileUtility.filterDirectoryContentByTypes(new String[] { "zip" }, list);
-        System.out.println(validList);
+        
+        updateStatusLabel("found " + validList.size() + " valid submissions");
 
+        updateStatusLabel("processing submissions...");
         SUBMISSION_MANAGER.bulkAddSubmissions(validList);
         SUBMISSION_MANAGER.getAllSubmissions();
         
         //PREPARE JUDGE
+        updateStatusLabel("preparing judge...");
         JAVA_JUDGE.prepareCriteria(testBulkFilePath);
 
+        updateStatusLabel("judge prepared...");
         //prepare submissions
         Map<String, Submission> submittedStatusSubmission = SUBMISSION_MANAGER.filterSubmissionsByStatus("SUBMITTED");
         submittedStatusSubmission.forEach((submissionId, submission) -> {
             System.out.println("Extracting submission: " + submissionId);
             try {
+                updateStatusLabel("processing submission: " + submissionId);
+                updateStatusLabel("extracting submission: " + submissionId);
                 String extractedPath = extractorZip.extract(submission.getSubmissionPath());
+                
                 submission.setSubmissionPath(extractedPath);
             } catch (Exception e) {
                 // TODO: handle exception
             }
-            System.out.println("Submission extracted to: " + submission.getSubmissionPath());
+            updateStatusLabel("submission: " + submissionId + "extracted to: " + submission.getSubmissionPath());
         });
 
 
         //loop through judging process
         //prepare submissions
+        progressbar.setMaximum(validList.size());
+        progressbar.setValue(0);
+        final int[] progCount = new int[1];
+
         submittedStatusSubmission.forEach((submissionId, submission) -> {
             System.out.println("Preparing Submission: " + submissionId);
             JAVA_JUDGE.prepareSubmission(submission);
@@ -151,6 +211,10 @@ public class DashScreen extends Screen {
             System.out.println("Cleaning Up Submission: " + submissionId);
             JAVA_JUDGE.cleanupSubmission();
             System.out.println("Submission extracted to: " + submission.getSubmissionPath());
+
+            progCount[0]++;
+            int progress = (int) (((double) progCount[0] / validList.size()) * 100);
+            updateProgressBar(progress);
         });
         
         JAVA_JUDGE.cleanupJudge();

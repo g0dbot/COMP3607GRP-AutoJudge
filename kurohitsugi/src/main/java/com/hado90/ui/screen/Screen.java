@@ -31,12 +31,12 @@ public abstract class Screen extends JFrame {
 
     public Screen(Style configStyle) {
         this.screenWidth = Integer.parseInt(Style.getConfigValue("SIZE_WIN_WIDTH_L"));
-        this.screenHeight = Integer.parseInt(Style.getConfigValue("SIZE_WIN_HEIGHT_M"));
+        this.screenHeight = 400;
         this.borderRadius = Integer.parseInt(Style.getConfigValue("SIZE_M1"));
         this.screenColor = decodeColor(Style.getConfigValue("BG_SECONDARY_COLOR"));
 
         this.navbarPanelColor = decodeColor(Style.getConfigValue("BG_MAIN_COLOR"));
-        this.navbarPanelHeight = Integer.parseInt(Style.getConfigValue("SIZE_XL3"));
+        this.navbarPanelHeight = Integer.parseInt(Style.getConfigValue("SIZE_XL1"));
         this.closeBtnWidth = Integer.parseInt(Style.getConfigValue("SIZE_XL3"));
         this.closeBtnHeight = Integer.parseInt(Style.getConfigValue("SIZE_XL3"));
         this.closeBtnMainColor = navbarPanelColor;
@@ -95,7 +95,7 @@ public abstract class Screen extends JFrame {
     private void initContentPanel() {
         contentPanel = new JPanel();
         contentPanel.setBackground(screenColor);
-        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         addContent(contentPanel);
     }
 
@@ -105,15 +105,22 @@ public abstract class Screen extends JFrame {
         this.setLayout(new BorderLayout());
         this.add(navbarPanel, BorderLayout.NORTH);
         this.add(contentPanel, BorderLayout.CENTER);
+        this.pack();
     }
 
-    protected Color decodeColor(String colorCode) {
+    public Color decodeColor(String colorStr) {
+        if (colorStr == null || colorStr.trim().isEmpty()) {
+            System.err.println("Invalid color value, using default color.");
+            return Color.GRAY; 
+        }
         try {
-            return Color.decode(colorCode);
+            return Color.decode(colorStr);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid color code: " + colorCode, e);
+            System.err.println("Invalid color format: " + colorStr);
+            return Color.GRAY;
         }
     }
+    
 
     public void display() { setVisible(true); }
     public void close() { setVisible(false); }
